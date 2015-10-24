@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Generate C source code for CRC | sour-crc</title>
+		<meta name="description" content="Generate C source code for various popular or custom CRC algorithms (CRC64 / CRC32 / CRC16 / CRC8 etc.) specified by configurations: polynom, reverse bytes (refin and refout) option, init value, xorout final value, swap bytes option"> 
+		<script type="text/javascript" src="sour-crc.js"></script>
+		<script type="text/javascript">
+			function el(id) {
+				return document.getElementById(id);
+			}
+			function print_gen() {
+				el('genres').value = "";
+				el('genres').value=gen_code_crc(
+					Number(el('widthtext').value), 
+					Number(el('polytext').value), 
+					el('refionoutcheck').checked, 
+					el('swapcheck').checked, 
+					Number(el('inittext').value), 
+					Number(el('xorouttext').value)
+				);
+			}
+		</script>
+	</head>
+	<body onload="print_gen();">
+		<h1>sour-crc</h1>
+		<p>
+			Generate C source code for CRC implementation (CRC64 / CRC32 / CRC16 / CRC8 etc.) specified by the configuration<br>
+			The generating algorithm is based on this <a href="http://www.barrgroup.com/Embedded-Systems/How-To/CRC-Calculation-C-Code">article by Michael Barr</a><br>
+			The commonly used configurations may be found in this <a href="http://reveng.sourceforge.net/crc-catalogue/">catalogue of parametrised CRC algorithms</a>
+		</p>
+		<p>
+			Generate using configuration:<br>
+			<table>
+				<tr>
+					<td>width</td>
+					<td><input type="text" value="32" id="widthtext" onkeypress="if(event.keyCode == 13) print_gen();"/></td>
+					<td>number of bits, not less than 8</td>
+				</tr>
+				<tr>
+					<td>polynom</td>
+					<td><input type="text" value="0x04c11db7" id="polytext" onkeypress="if(event.keyCode == 13) print_gen();"/></td>
+					<td>polynom value (non-reversed)</td>
+				</tr>
+				<tr>
+					<td>refin, refout</td>
+					<td><input type="checkbox" id="refionoutcheck" checked/></td>
+					<td>reverse byte, reverse result</td>
+				</tr>
+				<tr>
+					<td>init</td>
+					<td><input type="text" value="0xffffffff" id="inittext" onkeypress="if(event.keyCode == 13) print_gen();"/></td>
+					<td>initial value</td>
+				</tr>
+				<tr>
+					<td>xorout</td>
+					<td><input type="text" value="0xffffffff" id="xorouttext" onkeypress="if(event.keyCode == 13) print_gen();"/></td>
+					<td>value to xor result with</td>
+				</tr>
+				<tr>
+					<td>swap</td>
+					<td><input type="checkbox" id="swapcheck"/></td>
+					<td>swap result bytes, works for width 16 only (used for CRC16-Kermit etc.)</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><input type="button"  value="Generate" onclick="print_gen();"/></td>
+					<td></td>
+			</table>
+		</p>
+		<p>
+			<textarea rows="80" cols="130" id="genres"></textarea>
+		</p>
+		<p>
+			The <b>sour-crc</b> javascript code and the generated code are provided under the <a href="LICENSE">MIT license</a>
+		</p>	
+	</body>
+</html>
